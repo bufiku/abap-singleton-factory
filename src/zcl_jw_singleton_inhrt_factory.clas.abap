@@ -1,24 +1,36 @@
-CLASS zcl_jw_singleton_inhrt_factory DEFINITION
-  PUBLIC
-  FINAL
-  CREATE PRIVATE .
+class ZCL_JW_SINGLETON_INHRT_FACTORY definition
+  public
+  final
+  create private .
 
-  PUBLIC SECTION.
-    TYPES: BEGIN OF zlty_classtree,
+public section.
+
+  types:
+    BEGIN OF zlty_classtree,
              classname TYPE seoclsname,
              descript  TYPE seodescr,
-           END OF zlty_classtree,
-           zltty_classtree TYPE SORTED TABLE OF zlty_classtree
-                        WITH UNIQUE KEY  classname.
-    CLASS-METHODS:  class_constructor ,
-      get_possible_classes RETURNING VALUE(zrt_classtree) TYPE zltty_classtree,
-      get_some_instance IMPORTING zip_singleton       TYPE any
-                        RETURNING VALUE(zrr_instance) TYPE REF TO zif_jw_singleton_inheritance
-                        RAISING   zcx_simple_error,
-      raise_exception
-        IMPORTING iv_msg      TYPE symsgv OPTIONAL
-                  is_t100_key TYPE scx_t100key OPTIONAL
-        RAISING   zcx_simple_error.
+           END OF zlty_classtree .
+  types:
+    zltty_classtree TYPE SORTED TABLE OF zlty_classtree
+                        WITH UNIQUE KEY  classname .
+
+  class-methods CLASS_CONSTRUCTOR .
+  class-methods GET_POSSIBLE_CLASSES
+    returning
+      value(ZRT_CLASSTREE) type ZLTTY_CLASSTREE .
+  class-methods GET_SOME_INSTANCE
+    importing
+      !ZIP_SINGLETON type ANY
+    returning
+      value(ZRR_INSTANCE) type ref to ZIF_JW_SINGLETON_INHERITANCE
+    raising
+      ZCX_SIMPLE_ERROR .
+  class-methods RAISE_EXCEPTION
+    importing
+      !IV_MSG type SYMSGV optional
+      !IS_T100_KEY type SCX_T100KEY optional
+    raising
+      ZCX_SIMPLE_ERROR .
   PROTECTED SECTION.
   PRIVATE SECTION.
     CLASS-DATA:
